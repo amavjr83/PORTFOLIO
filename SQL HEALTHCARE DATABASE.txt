@@ -1,0 +1,91 @@
+# =======================
+# 1. HEALTHCARE DATABASE
+# =======================
+
+# Drop tables if they exist (for clean reset)
+DROP TABLE IF EXISTS appointments, patients, doctors, departments;
+
+# Create Departments table
+CREATE TABLE departments (
+  department_id INT PRIMARY KEY,
+  department_name VARCHAR(100)
+);
+
+# Create Patients table
+CREATE TABLE patients (
+  patient_id INT PRIMARY KEY,
+  name VARCHAR(100),
+  gender CHAR(1),
+  age INT,
+  department_id INT,
+  FOREIGN KEY (department_id) REFERENCES departments(department_id)
+);
+
+# Create Doctors table
+CREATE TABLE doctors (
+  doctor_id INT PRIMARY KEY,
+  name VARCHAR(100),
+  specialty VARCHAR(100),
+  department_id INT,
+  years_experience INT,
+  FOREIGN KEY (department_id) REFERENCES departments(department_id)
+);
+
+# Create Appointments table
+CREATE TABLE appointments (
+  appointment_id INT PRIMARY KEY,
+  patient_id INT,
+  doctor_id INT,
+  appointment_date DATE,
+  diagnosis VARCHAR(100),
+  treatment_cost DECIMAL(10, 2),
+  FOREIGN KEY (patient_id) REFERENCES patients(patient_id),
+  FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id)
+);
+
+# Insert Departments
+INSERT INTO departments VALUES
+(1, 'Cardiology'), (2, 'Neurology'), (3, 'Pediatrics'), (4, 'Orthopedics');
+
+# Insert Patients
+INSERT INTO patients VALUES
+(1, 'Alice Smith', 'F', 29, 1),
+(2, 'Bob Johnson', 'M', 43, 2),
+(3, 'Carol White', 'F', 35, 3),
+(4, 'David Brown', 'M', 52, 1),
+(5, 'Eva Green', 'F', 30, 4),
+(6, 'Frank Black', 'M', 60, 1),
+(7, 'Grace Wilson', 'F', 28, 3),
+(8, 'Henry King', 'M', 38, 4),
+(9, 'Isla Turner', 'F', 45, 2),
+(10, 'Jack Lee', 'M', 33, 4);
+
+# Insert Doctors
+INSERT INTO doctors VALUES
+(1, 'Dr. Thomas', 'Cardiologist', 1, 15),
+(2, 'Dr. Patel', 'Neurologist', 2, 20),
+(3, 'Dr. Rose', 'Pediatrician', 3, 10),
+(4, 'Dr. Kim', 'Orthopedic Surgeon', 4, 12);
+
+# Insert Appointments
+INSERT INTO appointments VALUES
+(1, 1, 1, '2024-06-12', 'Hypertension', 250.00),
+(2, 2, 2, '2024-06-15', 'Migraine', 180.00),
+(3, 3, 3, '2024-06-20', 'Flu', 90.00),
+(4, 4, 1, '2024-06-22', 'Heart Disease', 300.00),
+(5, 5, 4, '2024-06-25', 'Fracture', 400.00),
+(6, 6, 1, '2024-06-28', 'Arrhythmia', 220.00),
+(7, 7, 3, '2024-07-01', 'Checkup', 100.00),
+(8, 8, 4, '2024-07-02', 'Knee Pain', 350.00),
+(9, 9, 2, '2024-07-03', 'Epilepsy', 270.00),
+(10, 10, 4, '2024-07-04', 'Back Pain', 290.00);
+
+# View: Patient Summary with Cost
+CREATE VIEW healthcare_patient_summary AS
+SELECT p.name AS patient_name, d.department_name, a.diagnosis, a.treatment_cost
+FROM patients p
+JOIN departments d ON p.department_id = d.department_id
+JOIN appointments a ON p.patient_id = a.patient_id;
+
+# Index for performance
+CREATE INDEX idx_appointment_doctor ON appointments(doctor_id);
