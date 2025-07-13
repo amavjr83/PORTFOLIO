@@ -1,0 +1,98 @@
+PROJECT 2: University Performance Tracker
+
+# =======================
+# 2. UNIVERSITY DATABASE
+# =======================
+
+DROP TABLE IF EXISTS grades, courses, students, instructors;
+
+CREATE TABLE students (
+  student_id INT PRIMARY KEY,
+  name VARCHAR(100),
+  gender CHAR(1),
+  dob DATE,
+  enrollment_year INT,
+  major VARCHAR(100)
+);
+
+CREATE TABLE instructors (
+  instructor_id INT PRIMARY KEY,
+  name VARCHAR(100),
+  department VARCHAR(100),
+  hire_year INT,
+  tenured BOOLEAN
+);
+
+CREATE TABLE courses (
+  course_id INT PRIMARY KEY,
+  course_name VARCHAR(100),
+  credits INT,
+  instructor_id INT,
+  semester_offered VARCHAR(20),
+  FOREIGN KEY (instructor_id) REFERENCES instructors(instructor_id)
+);
+
+CREATE TABLE grades (
+  grade_id INT PRIMARY KEY,
+  student_id INT,
+  course_id INT,
+  semester VARCHAR(20),
+  grade VARCHAR(2),
+  FOREIGN KEY (student_id) REFERENCES students(student_id),
+  FOREIGN KEY (course_id) REFERENCES courses(course_id)
+);
+
+# Insert Students
+INSERT INTO students VALUES
+(1, 'Anna Kim', 'F', '2000-03-15', 2018, 'Biology'),
+(2, 'Ben Lee', 'M', '1999-06-21', 2018, 'Physics'),
+(3, 'Chloe Wang', 'F', '2001-02-01', 2019, 'Computer Science'),
+(4, 'Dan Young', 'M', '2000-11-09', 2019, 'Mathematics'),
+(5, 'Ella Chen', 'F', '2000-07-30', 2020, 'Chemistry'),
+(6, 'Finn Moore', 'M', '2002-04-12', 2020, 'Biology'),
+(7, 'Gina Patel', 'F', '1999-12-03', 2017, 'History'),
+(8, 'Hank Green', 'M', '1998-01-22', 2016, 'Physics'),
+(9, 'Ivy Xu', 'F', '2001-05-17', 2020, 'Computer Science'),
+(10, 'Jake Park', 'M', '2000-09-10', 2018, 'Engineering');
+
+# Insert Instructors
+INSERT INTO instructors VALUES
+(1, 'Dr. Smith', 'Biology', 2010, TRUE),
+(2, 'Dr. Johnson', 'Physics', 2012, FALSE),
+(3, 'Dr. Wu', 'Computer Science', 2015, TRUE),
+(4, 'Dr. Allen', 'Mathematics', 2014, TRUE),
+(5, 'Dr. Davis', 'Chemistry', 2011, FALSE);
+
+# Insert Courses
+INSERT INTO courses VALUES
+(101, 'Intro to Biology', 3, 1, 'Fall'),
+(102, 'Advanced Physics', 4, 2, 'Spring'),
+(103, 'Data Structures', 3, 3, 'Fall'),
+(104, 'Calculus II', 4, 4, 'Spring'),
+(105, 'Organic Chemistry', 4, 5, 'Fall');
+
+# Insert Grades
+INSERT INTO grades VALUES
+(1, 1, 101, 'Fall', 'A'),
+(2, 2, 102, 'Spring', 'B'),
+(3, 3, 103, 'Fall', 'A'),
+(4, 4, 104, 'Spring', 'C'),
+(5, 5, 105, 'Fall', 'B'),
+(6, 6, 101, 'Fall', 'B'),
+(7, 7, 102, 'Spring', 'C'),
+(8, 8, 103, 'Fall', 'A'),
+(9, 9, 105, 'Fall', 'A'),
+(10, 10, 104, 'Spring', 'B');
+
+# GPA Summary View
+CREATE VIEW student_gpa_summary AS
+SELECT s.name, s.major,
+  AVG(CASE 
+    WHEN g.grade = 'A' THEN 4
+    WHEN g.grade = 'B' THEN 3
+    WHEN g.grade = 'C' THEN 2
+    WHEN g.grade = 'D' THEN 1
+    ELSE 0 END) AS GPA
+FROM grades g
+JOIN students s ON g.student_id = s.student_id
+GROUP BY s.name, s.major;
