@@ -1,2 +1,3 @@
-# PORTFOLIO
-Professional data portfolio featuring projects built with Excel, MySQL, and Tableau. Includes healthcare analytics, student performance tracking, and airline satisfaction analysis.
+Professional Data Portfolio
+
+Welcome to my data portfolio — a collection of end-to-end analytics projects built using **Excel**, **MySQL**, and **Tableau**. Each project includes fully relational data, original business scenarios, and interactive dashboards.
