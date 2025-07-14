@@ -1,0 +1,95 @@
+-- Drop tables in reverse dependency order
+DROP TABLE IF EXISTS Satisfaction;
+DROP TABLE IF EXISTS Bookings;
+DROP TABLE IF EXISTS Flights;
+DROP TABLE IF EXISTS Passengers;
+
+-- Create Passengers table
+CREATE TABLE Passengers (
+  passenger_id INT PRIMARY KEY,
+  name VARCHAR(100),
+  gender CHAR(1),
+  age INT,
+  frequent_flyer_status VARCHAR(20)
+);
+
+INSERT INTO Passengers (passenger_id, name, gender, age, frequent_flyer_status) VALUES
+(1, 'Alice Johnson', 'F', 32, 'Gold'),
+(2, 'Brian Smith', 'M', 45, 'Silver'),
+(3, 'Carla Peterson', 'F', 29, 'Bronze'),
+(4, 'David Lee', 'M', 39, 'Platinum'),
+(5, 'Emma Davis', 'F', 52, 'None'),
+(6, 'Frank Wilson', 'M', 60, 'Gold'),
+(7, 'Gina White', 'F', 34, 'Silver'),
+(8, 'Harry Martin', 'M', 41, 'None'),
+(9, 'Irene Black', 'F', 27, 'Bronze'),
+(10, 'Jack Brown', 'M', 36, 'Platinum');
+
+-- Create Flights table
+CREATE TABLE Flights (
+  flight_id INT PRIMARY KEY,
+  airline VARCHAR(50),
+  origin VARCHAR(10),
+  destination VARCHAR(10),
+  flight_date DATE,
+  duration_mins INT
+);
+
+INSERT INTO Flights (flight_id, airline, origin, destination, flight_date, duration_mins) VALUES
+(100, 'SkyFly', 'NYC', 'LAX', '2024-01-20', 355),
+(101, 'JetWings', 'ATL', 'ORD', '2024-02-05', 150),
+(102, 'AirZoom', 'LAX', 'SEA', '2024-03-10', 160),
+(103, 'SkyFly', 'MIA', 'JFK', '2024-04-12', 180),
+(104, 'JetWings', 'DEN', 'BOS', '2024-05-08', 235),
+(105, 'AirZoom', 'DFW', 'PHX', '2024-06-14', 210),
+(106, 'SkyFly', 'LAX', 'DEN', '2024-07-01', 195),
+(107, 'AirZoom', 'SEA', 'ATL', '2024-08-20', 270),
+(108, 'JetWings', 'ORD', 'NYC', '2024-09-18', 130),
+(109, 'SkyFly', 'BOS', 'SFO', '2024-10-04', 370);
+
+-- Create Bookings table
+CREATE TABLE Bookings (
+  booking_id INT PRIMARY KEY,
+  passenger_id INT,
+  flight_id INT,
+  booking_date DATE,
+  seat_class VARCHAR(20),
+  fare DECIMAL(10,2),
+  FOREIGN KEY (passenger_id) REFERENCES Passengers(passenger_id),
+  FOREIGN KEY (flight_id) REFERENCES Flights(flight_id)
+);
+
+INSERT INTO Bookings (booking_id, passenger_id, flight_id, booking_date, seat_class, fare) VALUES
+(201, 1, 100, '2024-01-10', 'Economy', 300.00),
+(202, 2, 101, '2024-01-25', 'Business', 600.00),
+(203, 3, 102, '2024-02-15', 'Economy', 280.00),
+(204, 4, 103, '2024-03-20', 'First', 900.00),
+(205, 5, 104, '2024-04-01', 'Economy', 310.00),
+(206, 6, 105, '2024-04-30', 'Business', 650.00),
+(207, 7, 106, '2024-05-20', 'First', 950.00),
+(208, 8, 107, '2024-06-05', 'Economy', 400.00),
+(209, 9, 108, '2024-07-22', 'Economy', 290.00),
+(210, 10, 109, '2024-08-01', 'First', 980.00);
+
+-- Create Satisfaction table
+CREATE TABLE Satisfaction (
+  survey_id INT PRIMARY KEY,
+  booking_id INT,
+  checkin_satisfaction INT,
+  flight_comfort INT,
+  in_flight_service INT,
+  overall_rating INT,
+  FOREIGN KEY (booking_id) REFERENCES Bookings(booking_id)
+);
+
+INSERT INTO Satisfaction (survey_id, booking_id, checkin_satisfaction, flight_comfort, in_flight_service, overall_rating) VALUES
+(301, 201, 4, 3, 4, 4),
+(302, 202, 5, 5, 5, 5),
+(303, 203, 3, 2, 3, 3),
+(304, 204, 5, 4, 5, 5),
+(305, 205, 2, 2, 3, 2),
+(306, 206, 4, 5, 4, 5),
+(307, 207, 5, 5, 5, 5),
+(308, 208, 3, 3, 3, 3),
+(309, 209, 2, 2, 2, 2),
+(310, 210, 4, 4, 4, 4);
