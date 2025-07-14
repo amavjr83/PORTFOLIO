@@ -1,0 +1,82 @@
+This project explores customer satisfaction across various aspects of airline service using a relational database and Tableau dashboards. The analysis aims to provide meaningful insights into the factors affecting passenger experiences and identify key areas of improvement for airline operations.
+
+
+
+Airline companies operate in a highly competitive and customer-centric environment where service quality directly influences customer loyalty and brand perception. This project simulates a real-world airline satisfaction dataset to explore the relationships between passenger demographics, in-flight services, flight characteristics, and overall satisfaction.
+
+Using a relational database structure built in MySQL, I designed and populated normalized tables representing:
+
+**Passengers**
+
+**Flights**
+
+**Services**
+
+**Feedback**
+
+Each component is connected using foreign key relationships to ensure referential integrity and enable powerful cross-table analytics. The dataset reflects realistic variations in age, class of travel, service ratings, and delay patterns, allowing for a deeper, business-relevant investigation into operational efficiency and service effectiveness.
+
+The final dataset was analyzed in Tableau, producing an interactive dashboard that tells a compelling story:
+
+Which services correlate most strongly with satisfaction?
+
+How do delays impact customer happiness?
+
+Which customer segments are most satisfied or at risk?
+
+These visual insights can empower airline decision-makers to:
+
+Prioritize investment in high-impact services like WiFi or comfort.
+
+Strategize service offerings by age group or ticket class.
+
+Reduce churn by proactively targeting dissatisfaction drivers.
+
+This end-to-end project showcases key data skills:
+
+Data modeling and normalization
+
+SQL scripting for data insertion and transformation
+
+Excel cleanup and formatting
+
+Tableau storytelling through KPIs, heatmaps, filters, and drill-downs
+
+It’s a practical demonstration of how data can drive value in a customer-facing industry.
+
+
+ Objectives
+
+- Models a normalized airline customer feedback database using MySQL.
+- Populate tables with mock yet realistic data using SQL.
+- Use Tableau to visualize satisfaction scores across key demographics and service features.
+- Analyze trends such as satisfaction by class, age group, flight distance, delay impact, etc.
+
+Database Schema
+
+The relational database consists of the following tables:
+
+- **Passengers** — ID, Name, Age, Gender, Class
+- **Flights** — Flight ID, Origin, Destination, Distance, Departure/Arrival Delay
+- **Services** — Inflight WiFi, Food, Seat Comfort, Cleanliness, etc.
+- **Feedback** — Satisfaction score (0/1), Comments, Flight ID, Passenger ID
+
+All tables are normalized and linked via foreign keys.
+
+Technologies Used
+
+- **MySQL** – Data modeling, table creation, complex queries.
+- **Excel** – Data cleaning and preprocessing.
+- **Tableau** – Interactive dashboards and visual storytelling.
+- **SQL** – For data insertion, joins, grouping, and analysis queries.
+
+Key Insights from Tableau Dashboard
+
+- **Business class passengers** report the highest satisfaction across most services.
+- **Inflight WiFi service** and **on-time performance** are the most influential drivers of dissatisfaction.
+- Older passengers tend to rate services more favorably than younger ones.
+- **Flight delays** (departure/arrival) significantly correlate with low satisfaction scores.
+
+
+Full interactive dashboard available in `Tableau/airline_dashboard.twbx`
+
